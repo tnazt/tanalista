@@ -152,6 +152,11 @@ if (window.location.pathname.includes("lista.html")) {
   }
 
   function iniciarReconhecimento() {
+    if (!navigator.onLine) {
+      alert("A entrada por voz precisa de conexão com a internet para funcionar.");
+      return;
+    }
+
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       alert("Seu navegador não suporta reconhecimento de voz.");
@@ -170,30 +175,33 @@ if (window.location.pathname.includes("lista.html")) {
     };
 
     recognition.onresult = function(event) {
-        const resultado = event.results[0][0].transcript.toLowerCase();
-        const numeros = {
-          "uma": 1, "um": 1, "duas": 2, "dois": 2, "três": 3,
-          "quatro": 4, "cinco": 5, "seis": 6, "sete": 7, "oito": 8,
-          "nove": 9, "dez": 10
-        };
-      
-        // Divide por vírgula ou “ e ” para identificar múltiplos itens
-        const blocos = resultado.split(/,| e /);
-      
-        blocos.forEach(bloco => {
-          const partes = bloco.trim().split(" ");
-          if (partes.length === 0) return;
-      
-          let qtd = numeros[partes[0]] || parseInt(partes[0]) || 1;
-          let nome = partes.slice(isNaN(partes[0]) ? 0 : 1).join(" ");
-          if (nome.length > 0) {
-            adicionarItem(nome, qtd);
-          }
-        });
-      
-        recognition.stop();
+      const resultado = event.results[0][0].transcript.toLowerCase();
+      const numeros = {
+        "uma": 1, "um": 1, "duas": 2, "dois": 2, "três": 3,
+        "quatro": 4, "cinco": 5, "seis": 6, "sete": 7, "oito": 8,
+        "nove": 9, "dez": 10
       };
-      
+
+      let fraseSeparada = resultado.replace(
+        /\b(uma|um|duas|dois|três|quatro|cinco|seis|sete|oito|nove|dez|\d+)\b/g,
+        ", $1"
+      );
+
+      const blocos = fraseSeparada.split(",").map(b => b.trim()).filter(b => b);
+
+      blocos.forEach(bloco => {
+        const partes = bloco.split(" ");
+        if (partes.length === 0) return;
+
+        let qtd = numeros[partes[0]] || parseInt(partes[0]) || 1;
+        let nome = partes.slice(isNaN(partes[0]) ? 0 : 1).join(" ");
+        if (nome.length > 0) {
+          adicionarItem(nome, qtd);
+        }
+      });
+
+      recognition.stop();
+    };
 
     recognition.onerror = function(event) {
       console.error("Erro no reconhecimento de voz:", event.error);
