@@ -186,3 +186,4 @@ if (window.location.pathname.includes("lista.html")) {
   window.alterarQuantidade = alterarQuantidade;
   window.iniciarReconhecimento = iniciarReconhecimento;
 }
+  
