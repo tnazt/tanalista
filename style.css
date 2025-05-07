@@ -9,8 +9,8 @@ body {
 }
 
 header {
-  background-color: #008000;
-  padding: 1rem 0.5rem;
+  background-color: #00341e;
+  padding: 0.7rem 1rem;
   position: fixed;
   width: 100%;
   top: 0;
@@ -18,10 +18,10 @@ header {
   z-index: 1000;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 1.6rem;
-  color: white;
+.logo-header {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
 }
 
 .container {
@@ -35,7 +35,7 @@ header h1 {
 
 .titulo-centralizado {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 }
 
 input[type="text"] {
@@ -78,6 +78,7 @@ ul li {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.8rem;
+  font-size: 1.1rem;
 }
 
 .quantidade button {
