@@ -167,25 +167,17 @@ if (window.location.pathname.includes("lista.html")) {
       recognition.onresult = function(event) {
         const resultado = event.results[0][0].transcript;
         adicionarItem(resultado);
-        gravando = false;
-        botaoVoz.textContent = "🎤 Adicionar por voz";
-        botaoVoz.style.background = "var(--button-bg)";
+        pararGravacao();
       };
 
       recognition.onerror = function(event) {
         console.error("Erro no reconhecimento de voz:", event.error);
         alert("Erro ao reconhecer a voz. Tente novamente.");
-        gravando = false;
-        botaoVoz.textContent = "🎤 Adicionar por voz";
-        botaoVoz.style.background = "var(--button-bg)";
+        pararGravacao();
       };
 
       recognition.onend = function() {
-        if (gravando) {
-          gravando = false;
-          botaoVoz.textContent = "🎤 Adicionar por voz";
-          botaoVoz.style.background = "var(--button-bg)";
-        }
+        if (gravando) pararGravacao();
       };
     }
 
@@ -196,10 +188,13 @@ if (window.location.pathname.includes("lista.html")) {
       botaoVoz.style.background = "#ff5252";
     } else {
       recognition.stop();
-      gravando = false;
-      botaoVoz.textContent = "🎤 Adicionar por voz";
-      botaoVoz.style.background = "var(--button-bg)";
     }
+  }
+
+  function pararGravacao() {
+    gravando = false;
+    botaoVoz.textContent = "🎤 Adicionar por voz";
+    botaoVoz.style.background = "var(--button-bg)";
   }
 
   function voltar() {
