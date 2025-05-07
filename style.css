@@ -1,3 +1,4 @@
+/* style.css */
 :root {
     --bg-color: #121212;
     --text-color: #ffffff;
@@ -25,9 +26,23 @@
     font-family: Helvetica, sans-serif;
   }
   
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--accent-color);
+    color: var(--button-text);
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    z-index: 1000;
+  }
+  
   .container {
     max-width: 600px;
-    margin: auto;
+    margin: 5rem auto 0 auto;
     padding: 2rem;
   }
   
