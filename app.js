@@ -57,11 +57,13 @@ if (window.location.pathname.includes("lista.html")) {
   const titulo = document.getElementById("tituloLista");
   const itensContainer = document.getElementById("itensContainer");
   const botaoVoz = document.querySelector(".add-voz button");
+  const botaoImagem = document.querySelector(".add-imagem");
   const listaSelecionada = localStorage.getItem("listaSelecionada");
 
   let itens = JSON.parse(localStorage.getItem(`itens-${listaSelecionada}`)) || [];
 
   if (titulo) titulo.textContent = listaSelecionada;
+  if (botaoImagem) botaoImagem.style.display = "none";
 
   function renderizarItens() {
     itensContainer.innerHTML = "";
@@ -104,51 +106,6 @@ if (window.location.pathname.includes("lista.html")) {
     }
     localStorage.setItem(`itens-${listaSelecionada}`, JSON.stringify(itens));
     renderizarItens();
-  }
-
-  function carregarImagem(file) {
-    if (!file) return;
-
-    const canvas = document.getElementById("canvasOCR");
-    const ctx = canvas.getContext("2d");
-
-    const img = new Image();
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const data = imageData.data;
-      for (let i = 0; i < data.length; i += 4) {
-        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-        const value = avg < 150 ? 0 : 255;
-        data[i] = data[i + 1] = data[i + 2] = value;
-      }
-      ctx.putImageData(imageData, 0, 0);
-
-      processarImagem(canvas.toDataURL());
-    };
-    img.src = URL.createObjectURL(file);
-  }
-
-  function processarImagem(imageBase64) {
-    Tesseract.recognize(imageBase64, 'por', {
-      logger: m => console.log(m)
-    }).then(({ data: { text } }) => {
-      const linhas = text.split("\n").map(l => l.trim()).filter(l =>
-        l.length >= 3 && /^[a-zA-Zá-úÁ-ÚçÇ\s]+$/.test(l)
-      );
-      linhas.forEach(linha => {
-        itens.push({ nome: linha, quantidade: 1 });
-      });
-      localStorage.setItem(`itens-${listaSelecionada}`, JSON.stringify(itens));
-      renderizarItens();
-      alert("Itens adicionados com sucesso!");
-    }).catch(err => {
-      console.error("Erro no OCR:", err);
-      alert("Erro ao processar imagem.");
-    });
   }
 
   function iniciarReconhecimento() {
@@ -194,7 +151,7 @@ if (window.location.pathname.includes("lista.html")) {
         if (partes.length === 0) return;
 
         let qtd = numeros[partes[0]] || parseInt(partes[0]) || 1;
-        let nome = partes.slice(isNaN(partes[0]) ? 0 : 1).filter(p => p !== "e").join(" ");
+        let nome = partes.slice(1).filter(p => p !== "e" && !numeros[p] && isNaN(p)).join(" ");
 
         if (nome.length > 0) {
           adicionarItem(nome, qtd);
@@ -220,7 +177,7 @@ if (window.location.pathname.includes("lista.html")) {
   }
 
   function voltar() {
-    window.location.assign("/index.html");
+    location.href = "./index.html";
   }
 
   renderizarItens();
@@ -229,6 +186,5 @@ if (window.location.pathname.includes("lista.html")) {
   window.excluirItem = excluirItem;
   window.voltar = voltar;
   window.alterarQuantidade = alterarQuantidade;
-  window.carregarImagem = carregarImagem;
   window.iniciarReconhecimento = iniciarReconhecimento;
 }
