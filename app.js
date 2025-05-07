@@ -194,7 +194,8 @@ if (window.location.pathname.includes("lista.html")) {
         if (partes.length === 0) return;
 
         let qtd = numeros[partes[0]] || parseInt(partes[0]) || 1;
-        let nome = partes.slice(isNaN(partes[0]) ? 0 : 1).join(" ");
+        let nome = partes.slice(isNaN(partes[0]) ? 0 : 1).filter(p => p !== "e").join(" ");
+
         if (nome.length > 0) {
           adicionarItem(nome, qtd);
         }
@@ -219,7 +220,7 @@ if (window.location.pathname.includes("lista.html")) {
   }
 
   function voltar() {
-    window.location.href = "index.html";
+    window.location.assign("/index.html");
   }
 
   renderizarItens();
