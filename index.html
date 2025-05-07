@@ -8,17 +8,15 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="topbar">Tá na Lista</div>
   <div class="container">
     <h1>Minhas Listas</h1>
-
     <div class="add-lista">
       <input id="novaListaInput" type="text" placeholder="Nova lista..." />
       <button onclick="adicionarLista()">Criar</button>
     </div>
-
     <ul id="listasContainer"></ul>
   </div>
-
   <script src="app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {

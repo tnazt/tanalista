@@ -1,10 +1,8 @@
 // app.js
 
-// -------------------------
-// TELA PRINCIPAL - index.html
-// -------------------------
-
 let listas = JSON.parse(localStorage.getItem("listas")) || [];
+let gravando = false;
+let recognition;
 
 function renderizarListas() {
   const container = document.getElementById("listasContainer");
@@ -55,13 +53,10 @@ function selecionarLista(nome) {
 
 renderizarListas();
 
-// -------------------------
-// TELA DE ITENS - lista.html
-// -------------------------
-
 if (window.location.pathname.includes("lista.html")) {
   const titulo = document.getElementById("tituloLista");
   const itensContainer = document.getElementById("itensContainer");
+  const botaoVoz = document.querySelector(".add-voz button");
   const listaSelecionada = localStorage.getItem("listaSelecionada");
 
   let itens = JSON.parse(localStorage.getItem(`itens-${listaSelecionada}`)) || [];
@@ -163,22 +158,48 @@ if (window.location.pathname.includes("lista.html")) {
       return;
     }
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'pt-BR';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    if (!recognition) {
+      recognition = new SpeechRecognition();
+      recognition.lang = 'pt-BR';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
 
-    recognition.onresult = function(event) {
-      const resultado = event.results[0][0].transcript;
-      adicionarItem(resultado);
-    };
+      recognition.onresult = function(event) {
+        const resultado = event.results[0][0].transcript;
+        adicionarItem(resultado);
+        gravando = false;
+        botaoVoz.textContent = "🎤 Adicionar por voz";
+        botaoVoz.style.background = "var(--button-bg)";
+      };
 
-    recognition.onerror = function(event) {
-      console.error("Erro no reconhecimento de voz:", event.error);
-      alert("Erro ao reconhecer a voz. Tente novamente.");
-    };
+      recognition.onerror = function(event) {
+        console.error("Erro no reconhecimento de voz:", event.error);
+        alert("Erro ao reconhecer a voz. Tente novamente.");
+        gravando = false;
+        botaoVoz.textContent = "🎤 Adicionar por voz";
+        botaoVoz.style.background = "var(--button-bg)";
+      };
 
-    recognition.start();
+      recognition.onend = function() {
+        if (gravando) {
+          gravando = false;
+          botaoVoz.textContent = "🎤 Adicionar por voz";
+          botaoVoz.style.background = "var(--button-bg)";
+        }
+      };
+    }
+
+    if (!gravando) {
+      recognition.start();
+      gravando = true;
+      botaoVoz.textContent = "🔴 Gravando... (clique para parar)";
+      botaoVoz.style.background = "#ff5252";
+    } else {
+      recognition.stop();
+      gravando = false;
+      botaoVoz.textContent = "🎤 Adicionar por voz";
+      botaoVoz.style.background = "var(--button-bg)";
+    }
   }
 
   function voltar() {
