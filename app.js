@@ -170,23 +170,30 @@ if (window.location.pathname.includes("lista.html")) {
     };
 
     recognition.onresult = function(event) {
-      const resultado = event.results[0][0].transcript.toLowerCase();
-      const padrao = /(?:uma|um|dois|duas|três|quatro|cinco|seis|sete|oito|nove|dez|\d+)?\s*([a-zA-Zãõçáéíóúàêâôûü\s]+)/g;
-      const numeros = {
-        "uma": 1, "um": 1, "duas": 2, "dois": 2, "três": 3,
-        "quatro": 4, "cinco": 5, "seis": 6, "sete": 7, "oito": 8,
-        "nove": 9, "dez": 10
+        const resultado = event.results[0][0].transcript.toLowerCase();
+        const numeros = {
+          "uma": 1, "um": 1, "duas": 2, "dois": 2, "três": 3,
+          "quatro": 4, "cinco": 5, "seis": 6, "sete": 7, "oito": 8,
+          "nove": 9, "dez": 10
+        };
+      
+        // Divide por vírgula ou “ e ” para identificar múltiplos itens
+        const blocos = resultado.split(/,| e /);
+      
+        blocos.forEach(bloco => {
+          const partes = bloco.trim().split(" ");
+          if (partes.length === 0) return;
+      
+          let qtd = numeros[partes[0]] || parseInt(partes[0]) || 1;
+          let nome = partes.slice(isNaN(partes[0]) ? 0 : 1).join(" ");
+          if (nome.length > 0) {
+            adicionarItem(nome, qtd);
+          }
+        });
+      
+        recognition.stop();
       };
-
-      let match;
-      while ((match = padrao.exec(resultado)) !== null) {
-        let partes = match[0].trim().split(" ");
-        let qtd = numeros[partes[0]] || parseInt(partes[0]) || 1;
-        let nome = partes.slice(isNaN(qtd) ? 0 : 1).join(" ");
-        adicionarItem(nome, qtd);
-      }
-      recognition.stop();
-    };
+      
 
     recognition.onerror = function(event) {
       console.error("Erro no reconhecimento de voz:", event.error);
