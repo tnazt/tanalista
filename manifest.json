@@ -1,10 +1,10 @@
 {
     "name": "Tá na Lista",
     "short_name": "Tá na Lista",
-    "start_url": "/index.html",
+    "start_url": "index.html",
     "display": "standalone",
-    "background_color": "#000000",
-    "theme_color": "#006600",
+    "background_color": "#111111",
+    "theme_color": "#008000",
     "icons": [
       {
         "src": "icon-192.png",

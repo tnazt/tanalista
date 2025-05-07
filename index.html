@@ -1,32 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tá na Lista</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+  <base href="/" />
 </head>
 <body>
-  <div class="topbar">Tá na Lista</div>
-  <div class="container">
-    <h1>Minhas Listas</h1>
-    <div class="add-lista">
-      <input id="novaListaInput" type="text" placeholder="Nova lista..." />
-      <button onclick="adicionarLista()">Criar</button>
-    </div>
+  <header>
+    <img src="logo-horizontal.png" alt="Tá na Lista" class="logo" />
+  </header>
+
+  <main>
+    <input type="text" id="novaListaInput" placeholder="Nova lista..." />
+    <button onclick="adicionarLista()">Adicionar</button>
     <ul id="listasContainer"></ul>
-  </div>
+  </main>
+
   <script src="app.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(() => console.log('Service Worker registrado com sucesso!'))
-          .catch(error => console.log('Erro ao registrar o Service Worker:', error));
-      });
-    }
-  </script>
-  
 </body>
 </html>

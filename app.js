@@ -1,5 +1,3 @@
-// app.js
-
 let listas = JSON.parse(localStorage.getItem("listas")) || [];
 let gravando = false;
 let recognition;
@@ -57,7 +55,7 @@ if (window.location.pathname.includes("lista.html")) {
   const titulo = document.getElementById("tituloLista");
   const itensContainer = document.getElementById("itensContainer");
   const botaoVoz = document.querySelector(".add-voz button");
-  const botaoImagem = document.querySelector(".add-imagem");
+  const botaoImagem = document.getElementById("uploadImagem");
   const listaSelecionada = localStorage.getItem("listaSelecionada");
 
   let itens = JSON.parse(localStorage.getItem(`itens-${listaSelecionada}`)) || [];
@@ -151,7 +149,7 @@ if (window.location.pathname.includes("lista.html")) {
         if (partes.length === 0) return;
 
         let qtd = numeros[partes[0]] || parseInt(partes[0]) || 1;
-        let nome = partes.slice(1).filter(p => p !== "e" && !numeros[p] && isNaN(p)).join(" ");
+        let nome = partes.slice(1).filter(p => p !== "e").join(" ");
 
         if (nome.length > 0) {
           adicionarItem(nome, qtd);
