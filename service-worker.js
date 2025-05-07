@@ -1,26 +1,24 @@
-const CACHE_NAME = 'tana-lista-cache-v1';
+const CACHE_NAME = 'tanalista-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
   '/lista.html',
-  '/style.css',
   '/app.js',
+  '/style.css',
   '/manifest.json',
-  'https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js'
+  '/icon-192.png',
+  '/icon-512.png'
 ];
 
-self.addEventListener('install', function(event) {
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache) {
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urlsToCache))
   );
 });
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
-    })
+    caches.match(event.request).then(response => response || fetch(event.request))
   );
 });
