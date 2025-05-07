@@ -109,19 +109,46 @@ if (window.location.pathname.includes("lista.html")) {
     renderizarItens();
   }
 
-  function processarImagem(file) {
+  function carregarImagem(file) {
     if (!file) return;
 
-    Tesseract.recognize(file, 'por', {
+    const canvas = document.getElementById("canvasOCR");
+    const ctx = canvas.getContext("2d");
+
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      // Pré-processamento: converter para preto e branco (binarização)
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        const value = avg < 150 ? 0 : 255;
+        data[i] = data[i + 1] = data[i + 2] = value;
+      }
+      ctx.putImageData(imageData, 0, 0);
+
+      processarImagem(canvas.toDataURL());
+    };
+    img.src = URL.createObjectURL(file);
+  }
+
+  function processarImagem(imageBase64) {
+    Tesseract.recognize(imageBase64, 'por', {
       logger: m => console.log(m)
     }).then(({ data: { text } }) => {
-      const linhas = text.split("\n").map(l => l.trim()).filter(Boolean);
+      const linhas = text.split("\n").map(l => l.trim()).filter(l =>
+        l.length >= 3 && /^[a-zA-Zá-úÁ-ÚçÇ\s]+$/.test(l)
+      );
       linhas.forEach(linha => {
         itens.push({ nome: linha, quantidade: 1 });
       });
       localStorage.setItem(`itens-${listaSelecionada}`, JSON.stringify(itens));
       renderizarItens();
-      alert("Itens adicionados a partir da imagem!");
+      alert("Itens adicionados com sucesso!");
     }).catch(err => {
       console.error("Erro no OCR:", err);
       alert("Erro ao processar imagem.");
@@ -134,10 +161,9 @@ if (window.location.pathname.includes("lista.html")) {
 
   renderizarItens();
 
-  // Expor funções para o HTML
   window.adicionarItem = adicionarItem;
   window.excluirItem = excluirItem;
   window.voltar = voltar;
   window.alterarQuantidade = alterarQuantidade;
-  window.processarImagem = processarImagem;
+  window.carregarImagem = carregarImagem;
 }

@@ -16,9 +16,11 @@
     </div>
 
     <div class="add-ocr">
-      <input type="file" accept="image/*" id="fotoLista" onchange="processarImagem(this.files[0])" style="display: none;" />
+      <input type="file" accept="image/*" id="fotoLista" onchange="carregarImagem(this.files[0])" style="display: none;" />
       <button onclick="document.getElementById('fotoLista').click()">📸 Tirar Foto da Lista</button>
     </div>
+
+    <canvas id="canvasOCR" style="display:none;"></canvas>
 
     <ul id="itensContainer"></ul>
 
