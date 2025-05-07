@@ -109,6 +109,25 @@ if (window.location.pathname.includes("lista.html")) {
     renderizarItens();
   }
 
+  function processarImagem(file) {
+    if (!file) return;
+
+    Tesseract.recognize(file, 'por', {
+      logger: m => console.log(m)
+    }).then(({ data: { text } }) => {
+      const linhas = text.split("\n").map(l => l.trim()).filter(Boolean);
+      linhas.forEach(linha => {
+        itens.push({ nome: linha, quantidade: 1 });
+      });
+      localStorage.setItem(`itens-${listaSelecionada}`, JSON.stringify(itens));
+      renderizarItens();
+      alert("Itens adicionados a partir da imagem!");
+    }).catch(err => {
+      console.error("Erro no OCR:", err);
+      alert("Erro ao processar imagem.");
+    });
+  }
+
   function voltar() {
     window.location.href = "index.html";
   }
@@ -120,4 +139,5 @@ if (window.location.pathname.includes("lista.html")) {
   window.excluirItem = excluirItem;
   window.voltar = voltar;
   window.alterarQuantidade = alterarQuantidade;
+  window.processarImagem = processarImagem;
 }

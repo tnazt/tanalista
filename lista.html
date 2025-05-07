@@ -15,11 +15,17 @@
       <button onclick="adicionarItem()">Adicionar</button>
     </div>
 
+    <div class="add-ocr">
+      <input type="file" accept="image/*" id="fotoLista" onchange="processarImagem(this.files[0])" style="display: none;" />
+      <button onclick="document.getElementById('fotoLista').click()">📸 Tirar Foto da Lista</button>
+    </div>
+
     <ul id="itensContainer"></ul>
 
     <button onclick="voltar()" style="margin-top: 2rem;">⬅️ Voltar</button>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
