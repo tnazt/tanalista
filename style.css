@@ -10,11 +10,19 @@
   }
   
   body {
-    font-family: sans-serif;
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
     margin: 0;
     padding: 0;
     background: var(--bg-color);
     color: var(--text-color);
+  }
+  
+  a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: bold;
+    font-family: Helvetica, sans-serif;
   }
   
   .container {
@@ -26,6 +34,7 @@
   h1 {
     text-align: center;
     color: var(--text-color);
+    font-size: 2.2rem;
   }
   
   .add-lista {
@@ -34,7 +43,8 @@
     margin-bottom: 1rem;
   }
   
-  .add-ocr {
+  .add-ocr,
+  .add-voz {
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;
@@ -47,6 +57,8 @@
     background-color: var(--input-bg);
     color: var(--text-color);
     border: 1px solid var(--border-color);
+    font-weight: bold;
+    font-family: Helvetica, sans-serif;
   }
   
   button {
@@ -56,6 +68,8 @@
     border: none;
     font-size: 1rem;
     cursor: pointer;
+    font-weight: bold;
+    font-family: Helvetica, sans-serif;
   }
   
   ul {
@@ -72,9 +86,15 @@
     justify-content: space-between;
     align-items: center;
     color: var(--text-color);
+    font-weight: bold;
+    font-family: Helvetica, sans-serif;
   }
   
-  /* Estilo para bloco de quantidade */
+  li a {
+    font-size: 1.4rem;
+    color: var(--text-color);
+  }
+  
   .quantidade {
     display: flex;
     align-items: center;
@@ -89,5 +109,6 @@
     color: #fff;
     border: 1px solid #666;
     cursor: pointer;
+    font-weight: bold;
   }
   

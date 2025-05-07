@@ -1,3 +1,5 @@
+// app.js
+
 // -------------------------
 // TELA PRINCIPAL - index.html
 // -------------------------
@@ -83,13 +85,13 @@ if (window.location.pathname.includes("lista.html")) {
     });
   }
 
-  function adicionarItem() {
+  function adicionarItem(nomeItem) {
     const input = document.getElementById("novoItemInput");
-    const texto = input.value.trim();
+    const texto = nomeItem || input.value.trim();
     if (texto) {
       itens.push({ nome: texto, quantidade: 1 });
       localStorage.setItem(`itens-${listaSelecionada}`, JSON.stringify(itens));
-      input.value = "";
+      if (!nomeItem) input.value = "";
       renderizarItens();
     }
   }
@@ -121,7 +123,6 @@ if (window.location.pathname.includes("lista.html")) {
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
 
-      // Pré-processamento: converter para preto e branco (binarização)
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const data = imageData.data;
       for (let i = 0; i < data.length; i += 4) {
@@ -155,6 +156,31 @@ if (window.location.pathname.includes("lista.html")) {
     });
   }
 
+  function iniciarReconhecimento() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Seu navegador não suporta reconhecimento de voz.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'pt-BR';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = function(event) {
+      const resultado = event.results[0][0].transcript;
+      adicionarItem(resultado);
+    };
+
+    recognition.onerror = function(event) {
+      console.error("Erro no reconhecimento de voz:", event.error);
+      alert("Erro ao reconhecer a voz. Tente novamente.");
+    };
+
+    recognition.start();
+  }
+
   function voltar() {
     window.location.href = "index.html";
   }
@@ -166,4 +192,5 @@ if (window.location.pathname.includes("lista.html")) {
   window.voltar = voltar;
   window.alterarQuantidade = alterarQuantidade;
   window.carregarImagem = carregarImagem;
+  window.iniciarReconhecimento = iniciarReconhecimento;
 }
