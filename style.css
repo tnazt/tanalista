@@ -48,5 +48,23 @@ body {
     border: 1px solid #ddd;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Estilo para bloco de quantidade */
+  .quantidade {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+  
+  .quantidade button {
+    padding: 0.3rem 0.5rem;
+    font-size: 1rem;
+    background-color: #eee;
+    color: #000;
+    border: 1px solid #ccc;
+    cursor: pointer;
   }
   

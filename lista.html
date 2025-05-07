@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tá na Lista - Itens</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="container">
+    <h1 id="tituloLista">Minha Lista</h1>
+
+    <div class="add-lista">
+      <input id="novoItemInput" type="text" placeholder="Adicionar item..." />
+      <button onclick="adicionarItem()">Adicionar</button>
+    </div>
+
+    <ul id="itensContainer"></ul>
+
+    <button onclick="voltar()" style="margin-top: 2rem;">⬅️ Voltar</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
