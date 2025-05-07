@@ -158,43 +158,36 @@ if (window.location.pathname.includes("lista.html")) {
       return;
     }
 
-    if (!recognition) {
-      recognition = new SpeechRecognition();
-      recognition.lang = 'pt-BR';
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
+    recognition = new SpeechRecognition();
+    recognition.lang = 'pt-BR';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
 
-      recognition.onresult = function(event) {
-        const resultado = event.results[0][0].transcript;
-        adicionarItem(resultado);
-        pararGravacao();
-      };
-
-      recognition.onerror = function(event) {
-        console.error("Erro no reconhecimento de voz:", event.error);
-        alert("Erro ao reconhecer a voz. Tente novamente.");
-        pararGravacao();
-      };
-
-      recognition.onend = function() {
-        if (gravando) pararGravacao();
-      };
-    }
-
-    if (!gravando) {
-      recognition.start();
+    recognition.onstart = () => {
       gravando = true;
       botaoVoz.textContent = "🔴 Gravando... (clique para parar)";
       botaoVoz.style.background = "#ff5252";
-    } else {
-      recognition.stop();
-    }
-  }
+    };
 
-  function pararGravacao() {
-    gravando = false;
-    botaoVoz.textContent = "🎤 Adicionar por voz";
-    botaoVoz.style.background = "var(--button-bg)";
+    recognition.onresult = function(event) {
+      const resultado = event.results[0][0].transcript;
+      adicionarItem(resultado);
+      recognition.stop();
+    };
+
+    recognition.onerror = function(event) {
+      console.error("Erro no reconhecimento de voz:", event.error);
+      alert("Erro ao reconhecer a voz. Tente novamente.");
+      recognition.stop();
+    };
+
+    recognition.onend = function() {
+      gravando = false;
+      botaoVoz.textContent = "🎤 Adicionar por voz";
+      botaoVoz.style.background = "var(--button-bg)";
+    };
+
+    recognition.start();
   }
 
   function voltar() {
