@@ -1,40 +1,76 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lista de Compras</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tá na Lista - Itens</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <header>
-    <img src="logo-horizontal.png" alt="Tá na Lista" class="logo" />
-  </header>
+  <div class="container">
+    <h1 id="tituloLista">Minha Lista</h1>
 
-  <main>
-    <h1 id="tituloLista"></h1>
-
-    <input type="text" id="novoItemInput" placeholder="Novo item..." />
-    <button onclick="adicionarItem()">Adicionar</button>
-
-    <div class="add-botoes">
-      <div class="add-voz">
-        <button onclick="iniciarReconhecimento()">🎤 Adicionar por voz</button>
-      </div>
-      <div class="add-imagem">
-        <input type="file" accept="image/*" id="uploadImagem" style="display:none" />
-      </div>
+    <div class="add-lista">
+      <input id="novoItemInput" type="text" placeholder="Adicionar item..." />
+      <button onclick="adicionarItem()">Adicionar</button>
     </div>
+
+    <div class="add-ocr">
+      <input type="file" accept="image/*" id="fotoLista" onchange="carregarImagem(this.files[0])" style="display: none;" />
+      <button onclick="document.getElementById('fotoLista').click()">📸 Tirar Foto da Lista</button>
+    </div>
+
+    <div class="add-voz">
+      <button onclick="iniciarReconhecimento()">🎤 Adicionar por voz</button>
+    </div>
+
+    <canvas id="canvasOCR" style="display:none;"></canvas>
 
     <ul id="itensContainer"></ul>
 
-    <button onclick="voltar()">⬅ Voltar</button>
-  </main>
+    <button onclick="voltar()" style="margin-top: 2rem;">⬅️ Voltar</button>
+  </div>
 
-  <canvas id="canvasOCR" style="display: none;"></canvas>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
   <script src="app.js"></script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
-</html> 
- 
+</html>
