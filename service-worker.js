@@ -36,14 +36,10 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(response => {
-      // Se achou no cache, retorna
       if (response) {
         return response;
       }
-
-      // Se não achou, tenta buscar online
       return fetch(event.request).catch(() => {
-        // Se a busca falhar (ex: offline) e for navegação de página, retorna index.html
         if (event.request.mode === 'navigate') {
           return caches.match('/index.html');
         }

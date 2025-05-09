@@ -11,6 +11,9 @@
   <div class="container">
     <h2 id="tituloGuia" class="titulo-centralizado">Guia de Compras</h2>
     <ul id="guiaContainer"></ul>
+    <button onclick="limparMarcacoes()" class="btn-voltar">
+      <img src="lib/lucide/trash.svg" class="icon" alt="Limpar"> Desmarcar todos
+    </button>
     <button onclick="voltar()" class="btn-voltar">
       <img src="lib/lucide/arrow-left.svg" class="icon" alt="Voltar"> Voltar
     </button>
@@ -21,27 +24,54 @@
     const guiaContainer = document.getElementById("guiaContainer");
     const tituloGuia = document.getElementById("tituloGuia");
 
-    let itens = JSON.parse(localStorage.getItem(`itens-${listaSelecionada}`)) || [];
+    let itensOriginais = JSON.parse(localStorage.getItem(`itens-${listaSelecionada}`)) || [];
+    let itens = [...itensOriginais];
+    let riscados = JSON.parse(localStorage.getItem(`riscados-${listaSelecionada}`)) || [];
 
     if (tituloGuia) tituloGuia.textContent = `Comprando: ${listaSelecionada}`;
 
     function renderizarGuia() {
+      // Reorganiza itens: não riscados primeiro, depois riscados
+      const ativos = itensOriginais.filter((_, i) => !riscados.includes(i));
+      const marcados = itensOriginais.filter((_, i) => riscados.includes(i));
+      itens = [...ativos, ...marcados];
+
       guiaContainer.innerHTML = "";
       itens.forEach((item, index) => {
+        const realIndex = itensOriginais.findIndex(orig => orig.nome === item.nome && orig.quantidade === item.quantidade);
+        const isRiscado = riscados.includes(realIndex);
+
         const li = document.createElement("li");
-        li.innerHTML = `
-          <span id="item-${index}">${item.nome} (${item.quantidade})</span>
-          <button onclick="marcarItem(${index})">
-            <img src="lib/lucide/check.svg" class="icon" alt="Feito">
-          </button>
-        `;
+        const span = document.createElement("span");
+        span.id = `item-${realIndex}`;
+        span.textContent = `${item.nome} (${item.quantidade})`;
+        if (isRiscado) span.classList.add("riscado");
+
+        const botao = document.createElement("button");
+        botao.innerHTML = '<img src="lib/lucide/check.svg" class="icon" alt="Feito">';
+        botao.onclick = () => marcarItem(realIndex);
+
+        li.appendChild(span);
+        li.appendChild(botao);
         guiaContainer.appendChild(li);
       });
     }
 
     function marcarItem(index) {
-      const itemSpan = document.getElementById(`item-${index}`);
-      itemSpan.classList.toggle("riscado");
+      const span = document.getElementById(`item-${index}`);
+      if (riscados.includes(index)) {
+        riscados = riscados.filter(i => i !== index);
+      } else {
+        riscados.push(index);
+      }
+      localStorage.setItem(`riscados-${listaSelecionada}`, JSON.stringify(riscados));
+      renderizarGuia();
+    }
+
+    function limparMarcacoes() {
+      riscados = [];
+      localStorage.removeItem(`riscados-${listaSelecionada}`);
+      renderizarGuia();
     }
 
     function voltar() {
