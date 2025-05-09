@@ -58,6 +58,9 @@ button {
   cursor: pointer;
   font-family: Helvetica, sans-serif;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 button:hover {
@@ -127,14 +130,12 @@ a:hover {
   padding: 0.4rem 1rem;
 }
 
-/* Estilo para itens riscados na guia */
 .riscado {
   text-decoration: line-through;
   color: #a8f0c6;
   opacity: 0.7;
 }
 
-/* Estilo da lista de itens na guia */
 #guiaContainer li {
   display: flex;
   justify-content: space-between;
@@ -144,4 +145,9 @@ a:hover {
   border-radius: 8px;
   margin-bottom: 0.8rem;
   font-size: 1.1rem;
+}
+
+i[data-lucide] {
+  width: 18px;
+  height: 18px;
 }

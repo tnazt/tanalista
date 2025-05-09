@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">  
   <title>Tá na Lista</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link rel="apple-touch-icon" href="icon-192.png">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
   <header><img src="logo-horizontal.png" alt="Tá na Lista" class="logo-header"></header>
@@ -17,7 +16,7 @@
     <h2 class="titulo-centralizado">Minhas Listas</h2>
     <div class="add-lista">
       <input id="novaListaInput" type="text" placeholder="Nova lista..." />
-      <button onclick="adicionarLista()">Criar</button>
+      <button onclick="adicionarLista()"><i data-lucide="plus"></i> Criar</button>
     </div>
     <ul id="listasContainer"></ul>
   </div>
@@ -26,6 +25,7 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js');
     }
+    lucide.createIcons();
   </script>
 </body>
 </html>

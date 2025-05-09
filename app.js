@@ -16,35 +16,32 @@ function renderizarListas() {
     link.onclick = () => selecionarLista(lista);
     li.appendChild(link);
 
-    // Botão guia 🛒
-    const btnGuia = document.createElement("button");
-    btnGuia.textContent = "🛒";
-    btnGuia.title = "Abrir guia de compras";
-
+    // Verifica se há itens para exibir o botão 🛒
     const itensLista = JSON.parse(localStorage.getItem(`itens-${lista}`)) || [];
-    if (itensLista.length === 0) {
-      btnGuia.disabled = true;
-      btnGuia.style.opacity = "0.4";
-      btnGuia.style.cursor = "default";
-    } else {
+    if (itensLista.length > 0) {
+      const btnGuia = document.createElement("button");
+      btnGuia.title = "Abrir guia de compras";
+      const iconGuia = document.createElement("i");
+      iconGuia.setAttribute("data-lucide", "shopping-cart");
+      btnGuia.appendChild(iconGuia);
       btnGuia.onclick = () => {
         selecionarLista(lista);
         window.location.href = "guia.html";
       };
+      li.appendChild(btnGuia);
     }
 
-    li.appendChild(btnGuia);
-
-    // Botão excluir 🗑️
     const btnExcluir = document.createElement("button");
-    btnExcluir.textContent = "🗑️";
     btnExcluir.title = "Excluir lista";
     btnExcluir.style.marginLeft = "0.4rem";
+    btnExcluir.innerHTML = '<i data-lucide="trash"></i>';
     btnExcluir.onclick = () => excluirLista(index);
     li.appendChild(btnExcluir);
 
     container.appendChild(li);
   });
+
+  lucide.createIcons();
 }
 
 function adicionarLista() {
@@ -100,14 +97,15 @@ if (window.location.pathname.includes("lista.html")) {
       li.innerHTML = `
         <span>${item.nome}</span>
         <div class="quantidade">
-          <button onclick="alterarQuantidade(${index}, -1)">−</button>
+          <button onclick="alterarQuantidade(${index}, -1)"><i data-lucide="minus"></i></button>
           <span>${item.quantidade}</span>
-          <button onclick="alterarQuantidade(${index}, 1)">+</button>
-          <button onclick="excluirItem(${index})">🗑️</button>
+          <button onclick="alterarQuantidade(${index}, 1)"><i data-lucide="plus"></i></button>
+          <button onclick="excluirItem(${index})"><i data-lucide="trash"></i></button>
         </div>
       `;
       itensContainer.appendChild(li);
     });
+    lucide.createIcons();
   }
 
   function adicionarItem(nomeItem, quantidade = 1) {
@@ -155,8 +153,9 @@ if (window.location.pathname.includes("lista.html")) {
 
     recognition.onstart = () => {
       gravando = true;
-      botaoVoz.textContent = "🔴 Gravando... (clique para parar)";
+      botaoVoz.innerHTML = '<i data-lucide="mic-off"></i> Gravando...';
       botaoVoz.style.background = "#ff5252";
+      lucide.createIcons();
     };
 
     recognition.onresult = function(event) {
@@ -197,8 +196,9 @@ if (window.location.pathname.includes("lista.html")) {
 
     recognition.onend = function() {
       gravando = false;
-      botaoVoz.textContent = "🎤 Adicionar por voz";
+      botaoVoz.innerHTML = '<i data-lucide="mic"></i> Adicionar por voz';
       botaoVoz.style.background = "var(--button-bg)";
+      lucide.createIcons();
     };
 
     recognition.start();
