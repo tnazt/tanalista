@@ -20,10 +20,19 @@ function renderizarListas() {
     const btnGuia = document.createElement("button");
     btnGuia.textContent = "🛒";
     btnGuia.title = "Abrir guia de compras";
-    btnGuia.onclick = () => {
-      selecionarLista(lista);
-      window.location.href = "guia.html";
-    };
+
+    const itensLista = JSON.parse(localStorage.getItem(`itens-${lista}`)) || [];
+    if (itensLista.length === 0) {
+      btnGuia.disabled = true;
+      btnGuia.style.opacity = "0.4";
+      btnGuia.style.cursor = "default";
+    } else {
+      btnGuia.onclick = () => {
+        selecionarLista(lista);
+        window.location.href = "guia.html";
+      };
+    }
+
     li.appendChild(btnGuia);
 
     // Botão excluir 🗑️
@@ -68,12 +77,10 @@ function selecionarLista(nome) {
 
 renderizarListas();
 
-// Tornar funções globais para onclick funcionar
 window.adicionarLista = adicionarLista;
 window.selecionarLista = selecionarLista;
 window.excluirLista = excluirLista;
 
-// Lógica para lista.html
 if (window.location.pathname.includes("lista.html")) {
   const titulo = document.getElementById("tituloLista");
   const itensContainer = document.getElementById("itensContainer");
@@ -203,7 +210,6 @@ if (window.location.pathname.includes("lista.html")) {
 
   renderizarItens();
 
-  // Expor funções da página de itens
   window.adicionarItem = adicionarItem;
   window.excluirItem = excluirItem;
   window.voltar = voltar;

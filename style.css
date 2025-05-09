@@ -138,3 +138,14 @@ a:hover {
   color: #a8f0c6;
   opacity: 0.7;
 }
+
+#guiaContainer li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #222;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+}
