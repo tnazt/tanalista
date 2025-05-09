@@ -80,7 +80,8 @@ ul li {
   font-size: 1.1rem;
 }
 
-ul li a {
+ul li a,
+ul li span {
   flex: 1;
 }
 
@@ -88,17 +89,11 @@ ul li button {
   margin-left: 0.4rem;
 }
 
-.quantidade button {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.8rem;
-  min-width: auto;
-  margin-left: 0.3rem;
-}
-
 .quantidade {
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  justify-content: flex-end;
 }
 
 a {
@@ -132,13 +127,14 @@ a:hover {
   padding: 0.4rem 1rem;
 }
 
-/* Itens riscados no guia */
+/* Estilo para itens riscados na guia */
 .riscado {
   text-decoration: line-through;
   color: #a8f0c6;
   opacity: 0.7;
 }
 
+/* Estilo da lista de itens na guia */
 #guiaContainer li {
   display: flex;
   justify-content: space-between;
