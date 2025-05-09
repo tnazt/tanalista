@@ -145,7 +145,7 @@ if (window.location.pathname.includes("lista.html")) {
 
   function iniciarReconhecimento() {
     if (!localStorage.getItem("alertaVozJaExibido")) {
-      alert("Fale a quantidade seguida do item. Exemplo: '3 bananas'. O app vai entender e preencher automaticamente.");
+      alert("Fale a quantidade seguida do item. Exemplo: 3 bananas, 2 tomates e 1 batata. O app vai entender e preencher automaticamente.");
       localStorage.setItem("alertaVozJaExibido", "sim");
     }
 
