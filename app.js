@@ -120,7 +120,8 @@ if (window.location.pathname.includes("lista.html")) {
     const input = document.getElementById("novoItemInput");
     const texto = nomeItem || input.value.trim();
     if (texto) {
-      itens.push({ nome: texto, quantidade });
+      const textoFormatado = texto.charAt(0).toUpperCase() + texto.slice(1);
+      itens.push({ nome: textoFormatado, quantidade });
       localStorage.setItem(`itens-${listaSelecionada}`, JSON.stringify(itens));
       if (!nomeItem) input.value = "";
       renderizarItens();
@@ -144,7 +145,7 @@ if (window.location.pathname.includes("lista.html")) {
 
   function iniciarReconhecimento() {
     if (!localStorage.getItem("alertaVozJaExibido")) {
-      alert("Fale a quantidade seguida do item. Exemplo: '3 bananas, 2 tomates e 5 bataras'. O app vai entender e preencher automaticamente.");
+      alert("Fale a quantidade seguida do item. Exemplo: '3 bananas'. O app vai entender e preencher automaticamente.");
       localStorage.setItem("alertaVozJaExibido", "sim");
     }
 
@@ -193,7 +194,8 @@ if (window.location.pathname.includes("lista.html")) {
         let nome = partes.slice(1).filter(p => p !== "e").join(" ");
 
         if (nome.length > 0) {
-          adicionarItem(nome, qtd);
+          const nomeFormatado = nome.charAt(0).toUpperCase() + nome.slice(1);
+          adicionarItem(nomeFormatado, qtd);
         }
       });
 
