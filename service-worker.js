@@ -13,7 +13,7 @@ const urlsToCache = [
   '/icon-512.png',
   '/logo-horizontal.png',
 
-  // Ícones locais do Lucide
+  // Ícones locais (Lucide)
   '/lib/lucide/plus.svg',
   '/lib/lucide/trash.svg',
   '/lib/lucide/minus.svg',
@@ -36,7 +36,14 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(response => {
-      return response || fetch(event.request).catch(() => {
+      // Se achou no cache, retorna
+      if (response) {
+        return response;
+      }
+
+      // Se não achou, tenta buscar online
+      return fetch(event.request).catch(() => {
+        // Se a busca falhar (ex: offline) e for navegação de página, retorna index.html
         if (event.request.mode === 'navigate') {
           return caches.match('/index.html');
         }
