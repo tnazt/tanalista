@@ -87,13 +87,11 @@ if (window.location.pathname.includes("lista.html")) {
   const titulo = document.getElementById("tituloLista");
   const itensContainer = document.getElementById("itensContainer");
   const botaoVoz = document.querySelector(".add-voz button");
-  const botaoImagem = document.getElementById("uploadImagem");
   const listaSelecionada = localStorage.getItem("listaSelecionada");
 
   let itens = JSON.parse(localStorage.getItem(`itens-${listaSelecionada}`)) || [];
 
   if (titulo) titulo.textContent = listaSelecionada;
-  if (botaoImagem) botaoImagem.style.display = "none";
 
   function renderizarItens() {
     itensContainer.innerHTML = "";
@@ -145,6 +143,11 @@ if (window.location.pathname.includes("lista.html")) {
   }
 
   function iniciarReconhecimento() {
+    if (!localStorage.getItem("alertaVozJaExibido")) {
+      alert("Fale a quantidade seguida do item. Exemplo: '3 bananas, 2 tomates e 5 bataras'. O app vai entender e preencher automaticamente.");
+      localStorage.setItem("alertaVozJaExibido", "sim");
+    }
+
     if (!navigator.onLine) {
       alert("A entrada por voz precisa de conexão com a internet para funcionar.");
       return;
@@ -163,7 +166,7 @@ if (window.location.pathname.includes("lista.html")) {
 
     recognition.onstart = () => {
       gravando = true;
-      botaoVoz.innerHTML = `<img src="lib/lucide/mic-off.svg" class="icon" alt="Gravando"> Gravando...`;
+      botaoVoz.innerHTML = '<img src="lib/lucide/mic-off.svg" class="icon" alt="Gravando"> Gravando...';
       botaoVoz.style.background = "#ff5252";
     };
 
@@ -205,7 +208,7 @@ if (window.location.pathname.includes("lista.html")) {
 
     recognition.onend = function() {
       gravando = false;
-      botaoVoz.innerHTML = `<img src="lib/lucide/mic.svg" class="icon" alt="Microfone"> Adicionar por voz`;
+      botaoVoz.innerHTML = '<img src="lib/lucide/mic.svg" class="icon" alt="Microfone"> Adicionar por voz';
       botaoVoz.style.background = "var(--button-bg)";
     };
 
