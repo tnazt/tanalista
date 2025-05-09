@@ -1,15 +1,28 @@
-const CACHE_NAME = 'tanalista-v1';
+const CACHE_NAME = 'tanalista-v2';
 
 const urlsToCache = [
   '/',
   '/index.html',
   '/lista.html',
+  '/guia.html',
   '/style.css',
   '/app.js',
   '/manifest.json',
+  '/favicon-32.png',
   '/icon-192.png',
   '/icon-512.png',
-  '/logo-horizontal.png'
+  '/logo-horizontal.png',
+
+  // Ícones locais do Lucide
+  '/lib/lucide/plus.svg',
+  '/lib/lucide/trash.svg',
+  '/lib/lucide/minus.svg',
+  '/lib/lucide/mic.svg',
+  '/lib/lucide/mic-off.svg',
+  '/lib/lucide/arrow-left.svg',
+  '/lib/lucide/shopping-cart.svg',
+  '/lib/lucide/check.svg',
+  '/lib/lucide/camera.svg'
 ];
 
 self.addEventListener('install', event => {

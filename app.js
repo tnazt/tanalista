@@ -16,13 +16,14 @@ function renderizarListas() {
     link.onclick = () => selecionarLista(lista);
     li.appendChild(link);
 
-    // Verifica se há itens para exibir o botão 🛒
     const itensLista = JSON.parse(localStorage.getItem(`itens-${lista}`)) || [];
     if (itensLista.length > 0) {
       const btnGuia = document.createElement("button");
       btnGuia.title = "Abrir guia de compras";
-      const iconGuia = document.createElement("i");
-      iconGuia.setAttribute("data-lucide", "shopping-cart");
+      const iconGuia = document.createElement("img");
+      iconGuia.src = "lib/lucide/shopping-cart.svg";
+      iconGuia.className = "icon";
+      iconGuia.alt = "Carrinho";
       btnGuia.appendChild(iconGuia);
       btnGuia.onclick = () => {
         selecionarLista(lista);
@@ -34,14 +35,12 @@ function renderizarListas() {
     const btnExcluir = document.createElement("button");
     btnExcluir.title = "Excluir lista";
     btnExcluir.style.marginLeft = "0.4rem";
-    btnExcluir.innerHTML = '<i data-lucide="trash"></i>';
+    btnExcluir.innerHTML = `<img src="lib/lucide/trash.svg" class="icon" alt="Excluir">`;
     btnExcluir.onclick = () => excluirLista(index);
     li.appendChild(btnExcluir);
 
     container.appendChild(li);
   });
-
-  lucide.createIcons();
 }
 
 function adicionarLista() {
@@ -97,15 +96,20 @@ if (window.location.pathname.includes("lista.html")) {
       li.innerHTML = `
         <span>${item.nome}</span>
         <div class="quantidade">
-          <button onclick="alterarQuantidade(${index}, -1)"><i data-lucide="minus"></i></button>
+          <button onclick="alterarQuantidade(${index}, -1)">
+            <img src="lib/lucide/minus.svg" class="icon" alt="Diminuir">
+          </button>
           <span>${item.quantidade}</span>
-          <button onclick="alterarQuantidade(${index}, 1)"><i data-lucide="plus"></i></button>
-          <button onclick="excluirItem(${index})"><i data-lucide="trash"></i></button>
+          <button onclick="alterarQuantidade(${index}, 1)">
+            <img src="lib/lucide/plus.svg" class="icon" alt="Aumentar">
+          </button>
+          <button onclick="excluirItem(${index})">
+            <img src="lib/lucide/trash.svg" class="icon" alt="Excluir">
+          </button>
         </div>
       `;
       itensContainer.appendChild(li);
     });
-    lucide.createIcons();
   }
 
   function adicionarItem(nomeItem, quantidade = 1) {
@@ -153,9 +157,8 @@ if (window.location.pathname.includes("lista.html")) {
 
     recognition.onstart = () => {
       gravando = true;
-      botaoVoz.innerHTML = '<i data-lucide="mic-off"></i> Gravando...';
+      botaoVoz.innerHTML = `<img src="lib/lucide/mic-off.svg" class="icon" alt="Gravando"> Gravando...`;
       botaoVoz.style.background = "#ff5252";
-      lucide.createIcons();
     };
 
     recognition.onresult = function(event) {
@@ -196,9 +199,8 @@ if (window.location.pathname.includes("lista.html")) {
 
     recognition.onend = function() {
       gravando = false;
-      botaoVoz.innerHTML = '<i data-lucide="mic"></i> Adicionar por voz';
+      botaoVoz.innerHTML = `<img src="lib/lucide/mic.svg" class="icon" alt="Microfone"> Adicionar por voz`;
       botaoVoz.style.background = "var(--button-bg)";
-      lucide.createIcons();
     };
 
     recognition.start();

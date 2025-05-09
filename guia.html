@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Guia de Compras</title>
   <link rel="stylesheet" href="style.css"/>
-  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
   <header><img src="logo-horizontal.png" alt="Tá na Lista" class="logo-header"></header>
   <div class="container">
     <h2 id="tituloGuia" class="titulo-centralizado">Guia de Compras</h2>
     <ul id="guiaContainer"></ul>
-    <button onclick="voltar()" class="btn-voltar"><i data-lucide="arrow-left"></i> Voltar</button>
+    <button onclick="voltar()" class="btn-voltar">
+      <img src="lib/lucide/arrow-left.svg" class="icon" alt="Voltar"> Voltar
+    </button>
   </div>
 
   <script>
@@ -30,13 +31,12 @@
         const li = document.createElement("li");
         li.innerHTML = `
           <span id="item-${index}">${item.nome} (${item.quantidade})</span>
-          <button onclick="marcarItem(${index})" aria-label="Marcar como comprado">
-            <i data-lucide="check"></i>
+          <button onclick="marcarItem(${index})">
+            <img src="lib/lucide/check.svg" class="icon" alt="Feito">
           </button>
         `;
         guiaContainer.appendChild(li);
       });
-      lucide.createIcons();
     }
 
     function marcarItem(index) {

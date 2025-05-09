@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tá na Lista - Itens</title>
   <link rel="stylesheet" href="style.css"/>
-  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
   <header><img src="logo-horizontal.png" alt="Tá na Lista" class="logo-header"></header>
@@ -13,21 +12,28 @@
     <h2 id="tituloLista" class="titulo-centralizado">Minha Lista</h2>
     <div class="add-lista">
       <input id="novoItemInput" type="text" placeholder="Adicionar item..." />
-      <button onclick="adicionarItem()"><i data-lucide="plus"></i> Adicionar</button>
+      <button onclick="adicionarItem()">
+        <img src="lib/lucide/plus.svg" class="icon" alt="Adicionar"> Adicionar
+      </button>
     </div>
     <div class="add-imagem" style="display: none;">
       <input type="file" accept="image/*" id="fotoLista" onchange="carregarImagem(this.files[0])" />
-      <button onclick="document.getElementById('fotoLista').click()"><i data-lucide="camera"></i> Tirar Foto da Lista</button>
+      <button onclick="document.getElementById('fotoLista').click()">
+        <img src="lib/lucide/camera.svg" class="icon" alt="Câmera"> Tirar Foto da Lista
+      </button>
     </div>
     <div class="add-voz">
-      <button onclick="iniciarReconhecimento()"><i data-lucide="mic"></i> Adicionar por voz</button>
+      <button onclick="iniciarReconhecimento()">
+        <img src="lib/lucide/mic.svg" class="icon" alt="Microfone"> Adicionar por voz
+      </button>
     </div>
     <canvas id="canvasOCR" style="display:none;"></canvas>
     <ul id="itensContainer"></ul>
-    <button onclick="voltar()" class="btn-voltar"><i data-lucide="arrow-left"></i> Voltar</button>
+    <button onclick="voltar()" class="btn-voltar">
+      <img src="lib/lucide/arrow-left.svg" class="icon" alt="Voltar"> Voltar
+    </button>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
   <script src="app.js"></script>
-  <script>lucide.createIcons();</script>
 </body>
 </html>
