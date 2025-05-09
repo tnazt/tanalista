@@ -13,9 +13,16 @@
   <div class="container">
     <h2 id="tituloGuia" class="titulo-centralizado">Guia de Compras</h2>
     <ul id="guiaContainer"></ul>
+
     <button onclick="limparMarcacoes()" class="btn-voltar">
-      <img src="lib/lucide/trash.svg" class="icon" alt="Limpar"> Desmarcar todos
-    </button>
+        <img src="lib/lucide/trash.svg" class="icon" alt="Limpar"> Desmarcar todos
+      </button>
+    <p class="explicacao">
+      1. Esta é sua lista para usar como guia na hora de fazer as compras.<br>
+      2. Marque os itens comprados com <span class="icon-button"><img src="lib/lucide/check.svg" alt="Check"></span>.<br>
+      3. Não é possível editar os itens por aqui, apenas marcá-los como comprados ou não.<br>
+      4. Use o botão acima para desmarcar todos os itens de uma vez.
+    </p>
     <button onclick="voltar()" class="btn-voltar">
       <img src="lib/lucide/arrow-left.svg" class="icon" alt="Voltar"> Voltar
     </button>
@@ -33,7 +40,6 @@
     if (tituloGuia) tituloGuia.textContent = `Comprando: ${listaSelecionada}`;
 
     function renderizarGuia() {
-      // Reorganiza itens: não riscados primeiro, depois riscados
       const ativos = itensOriginais.filter((_, i) => !riscados.includes(i));
       const marcados = itensOriginais.filter((_, i) => riscados.includes(i));
       itens = [...ativos, ...marcados];
