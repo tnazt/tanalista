@@ -19,7 +19,7 @@ header {
 }
 
 .logo-header {
-  height: 50px;
+  height: 60px;
   width: auto;
   object-fit: contain;
 }
@@ -75,10 +75,17 @@ ul li {
   padding: 0.75rem 1rem;
   border-radius: 8px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 0.8rem;
   font-size: 1.1rem;
+}
+
+ul li a {
+  flex: 1;
+}
+
+ul li button {
+  margin-left: 0.4rem;
 }
 
 .quantidade button {
@@ -123,4 +130,11 @@ a:hover {
   align-self: center;
   margin-top: 2rem;
   padding: 0.4rem 1rem;
+}
+
+/* Itens riscados no guia */
+.riscado {
+  text-decoration: line-through;
+  color: #a8f0c6;
+  opacity: 0.7;
 }

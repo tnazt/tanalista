@@ -9,16 +9,30 @@ function renderizarListas() {
   container.innerHTML = "";
   listas.forEach((lista, index) => {
     const li = document.createElement("li");
+
     const link = document.createElement("a");
     link.href = "lista.html";
     link.textContent = lista;
     link.onclick = () => selecionarLista(lista);
     li.appendChild(link);
 
-    const btn = document.createElement("button");
-    btn.textContent = "🗑️";
-    btn.onclick = () => excluirLista(index);
-    li.appendChild(btn);
+    // Botão guia 🛒
+    const btnGuia = document.createElement("button");
+    btnGuia.textContent = "🛒";
+    btnGuia.title = "Abrir guia de compras";
+    btnGuia.onclick = () => {
+      selecionarLista(lista);
+      window.location.href = "guia.html";
+    };
+    li.appendChild(btnGuia);
+
+    // Botão excluir 🗑️
+    const btnExcluir = document.createElement("button");
+    btnExcluir.textContent = "🗑️";
+    btnExcluir.title = "Excluir lista";
+    btnExcluir.style.marginLeft = "0.4rem";
+    btnExcluir.onclick = () => excluirLista(index);
+    li.appendChild(btnExcluir);
 
     container.appendChild(li);
   });
@@ -39,6 +53,9 @@ function adicionarLista() {
 
 function excluirLista(index) {
   const nome = listas[index];
+  const confirmar = confirm(`Tem certeza que deseja excluir a lista "${nome}"?`);
+  if (!confirmar) return;
+
   localStorage.removeItem(`itens-${nome}`);
   listas.splice(index, 1);
   localStorage.setItem("listas", JSON.stringify(listas));
@@ -51,6 +68,12 @@ function selecionarLista(nome) {
 
 renderizarListas();
 
+// Tornar funções globais para onclick funcionar
+window.adicionarLista = adicionarLista;
+window.selecionarLista = selecionarLista;
+window.excluirLista = excluirLista;
+
+// Lógica para lista.html
 if (window.location.pathname.includes("lista.html")) {
   const titulo = document.getElementById("tituloLista");
   const itensContainer = document.getElementById("itensContainer");
@@ -180,10 +203,10 @@ if (window.location.pathname.includes("lista.html")) {
 
   renderizarItens();
 
+  // Expor funções da página de itens
   window.adicionarItem = adicionarItem;
   window.excluirItem = excluirItem;
   window.voltar = voltar;
   window.alterarQuantidade = alterarQuantidade;
   window.iniciarReconhecimento = iniciarReconhecimento;
 }
-  
