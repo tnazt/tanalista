@@ -48,12 +48,18 @@ function adicionarLista() {
   if (!input) return;
 
   const nome = input.value.trim();
-  if (nome) {
-    listas.push(nome);
-    localStorage.setItem("listas", JSON.stringify(listas));
-    input.value = "";
-    renderizarListas();
+  if (!nome) return;
+
+  const nomeExiste = listas.some(l => l.toLowerCase() === nome.toLowerCase());
+  if (nomeExiste) {
+    alert("Você já tem uma lista com esse nome.");
+    return;
   }
+
+  listas.push(nome);
+  localStorage.setItem("listas", JSON.stringify(listas));
+  input.value = "";
+  renderizarListas();
 }
 
 function excluirLista(index) {
