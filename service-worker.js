@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tanalista-v2';
+const CACHE_NAME = 'tanalista-v3';
 
 const urlsToCache = [
   '/',
@@ -13,7 +13,7 @@ const urlsToCache = [
   '/icon-512.png',
   '/logo-horizontal.png',
 
-  // Ícones locais (Lucide)
+  // Ícones Lucide locais
   '/lib/lucide/plus.svg',
   '/lib/lucide/trash.svg',
   '/lib/lucide/minus.svg',
@@ -31,15 +31,32 @@ self.addEventListener('install', event => {
       return cache.addAll(urlsToCache);
     })
   );
+  self.skipWaiting(); // ativa imediatamente o novo SW
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keyList => {
+      return Promise.all(
+        keyList.map(key => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key); // remove caches antigos
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim(); // força o controle imediato das páginas abertas
 });
 
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(response => {
       if (response) {
-        return response;
+        return response; // serve do cache
       }
       return fetch(event.request).catch(() => {
+        // fallback para navegação offline
         if (event.request.mode === 'navigate') {
           return caches.match('/index.html');
         }
